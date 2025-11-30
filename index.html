@@ -6,8 +6,8 @@
 <title>CursorBuddy.js Demo</title>
 <style>
   body {
-    font-family: Arial, sans-serif;
-    background: #fdfdfd;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #fefefe;
     color: #111;
     margin: 0;
     padding: 40px;
@@ -16,9 +16,10 @@
     align-items: center;
   }
 
-  h1 { color: #0af; margin-bottom: 5px; text-align: center; }
-  small { font-size: 0.7em; color: #0af; }
-  
+  h1 { color: #0af; margin-bottom: 5px; text-align: center; font-size: 2.5em; }
+  h2 { margin-top: 50px; color: #333; font-size: 1.8em; }
+  small { font-size: 0.8em; color: #0af; }
+
   .download-link {
     background: #0af;
     color: #fff;
@@ -31,26 +32,22 @@
   }
   .download-link:hover { background: #08c; }
 
-  .demo-section {
-    width: 100%;
-    max-width: 1000px;
-    margin-bottom: 50px;
-    text-align: center;
-  }
-
   .effects-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 25px;
-    margin-top: 20px;
+    gap: 50px;
+    margin-top: 30px;
+    min-height: 200px;
     position: relative;
-    min-height: 150px;
   }
 
   .effect-label {
-    font-weight: bold;
+    font-weight: 600;
     text-align: center;
+    margin-bottom: 10px;
+    color: #555;
+    font-size: 1.1em;
   }
 
   pre {
@@ -64,30 +61,25 @@
     margin-bottom: 50px;
   }
 
-  /* Default buddy style (floating) */
-  .cursor-companion-default {
-    pointer-events: none;
-    z-index: 9999;
-  }
+  /* Buddy default style */
+  .cursor-companion-default { pointer-events: none; z-index: 9999; border: none; }
 </style>
 <script src="cursorbuddy.min.js"></script>
 </head>
 <body>
 
-<h1>CursorBuddy.js <small>(Minified size: 3.58 KB)</small></h1>
+<h1>CursorBuddy.js <small>(3.58 KB minified)</small></h1>
 <a href="CursorBuddy.js" download class="download-link">Download CursorBuddy.js</a>
 
-<div class="demo-section">
-  <h2>Interactive Buddy Effects</h2>
-  <div class="effects-container" id="effects-container"></div>
-</div>
+<h2>Interactive Buddy Effects</h2>
+<div class="effects-container" id="effects-container"></div>
 
 <h2>How to Use</h2>
 <pre>
 &lt;script src="cursorbuddy.min.js"&gt;&lt;/script&gt;
 
 &lt;script&gt;
-// Example of adding CursorBuddy
+// Add floating buddies
 CursorBuddy.add({ idleEffects: { type:'float', intensity:6 } });
 CursorBuddy.add({ hoverEffects:{type:'bounce', intensity:1.2} });
 CursorBuddy.add({ clickEffects:{type:'squash', intensity:0.8} });
@@ -98,24 +90,37 @@ CursorBuddy.add({ hoverEffects:{type:'wiggle'} });
 
 <script>
 const effects = [
-  { type: 'bounce', color: '#ff4d4d', action: 'hoverEffects', intensity:1.2 },
-  { type: 'squash', color: '#4dff4d', action: 'clickEffects', intensity:0.8 },
-  { type: 'spin', color: '#4d4dff', action: 'hoverEffects', intensity:1.2 },
-  { type: 'wiggle', color: '#ffff4d', action: 'hoverEffects', intensity:1 },
-  { type: 'float', color: '#ff4dff', action: 'idleEffects', intensity:5 }
+  { type: 'Bounce', color: '#ff4d4d', action: 'hoverEffects', intensity: 1.2 },
+  { type: 'Squash', color: '#4dff4d', action: 'clickEffects', intensity: 0.8 },
+  { type: 'Spin', color: '#4d4dff', action: 'hoverEffects', intensity: 1.2 },
+  { type: 'Wiggle', color: '#ffff4d', action: 'hoverEffects', intensity: 1 },
+  { type: 'Float', color: '#ff4dff', action: 'idleEffects', intensity: 5 }
 ];
 
 const container = document.getElementById('effects-container');
 
 effects.forEach(eff => {
+  const wrapper = document.createElement('div');
+  wrapper.style.display = 'flex';
+  wrapper.style.flexDirection = 'column';
+  wrapper.style.alignItems = 'center';
+
   const label = document.createElement('div');
   label.className = 'effect-label';
-  label.textContent = eff.type.charAt(0).toUpperCase() + eff.type.slice(1);
-  container.appendChild(label);
+  label.textContent = eff.type;
+  wrapper.appendChild(label);
 
-  const buddy = CursorBuddy.add({
+  container.appendChild(wrapper);
+
+  // Create buddy without passing element, let CursorBuddy create it
+  CursorBuddy.add({
     followSpeed: 0.15,
-    [eff.action]: { type: eff.type, intensity: eff.intensity },
+    [eff.action]: { type: eff.type.toLowerCase(), intensity: eff.intensity },
+    image: null, // no image, default colored buddy
+    offset: { x: 0, y: 0 },
+    hoverEffects: eff.action === 'hoverEffects' ? { type: eff.type.toLowerCase(), intensity: eff.intensity } : null,
+    clickEffects: eff.action === 'clickEffects' ? { type: eff.type.toLowerCase(), intensity: eff.intensity } : null,
+    idleEffects: eff.action === 'idleEffects' ? { type: eff.type.toLowerCase(), intensity: eff.intensity } : null,
     element: (() => {
       const d = document.createElement('div');
       d.style.width = '40px';
@@ -126,9 +131,6 @@ effects.forEach(eff => {
       return d;
     })()
   });
-
-  // Optional: place the label near the buddy visually
-  buddy.el.style.position = 'absolute';
 });
 </script>
 
