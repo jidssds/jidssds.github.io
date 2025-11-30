@@ -7,44 +7,62 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #111;
-      color: #eee;
+      background: #fff;
+      color: #111;
       padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-    h1 { color: #0af; }
-    .demo-section { margin-bottom: 40px; }
+    h1 { color: #0af; text-align: center; }
+    .demo-section {
+      margin-bottom: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
     .demo-box {
       width: 200px;
       height: 100px;
-      background: #222;
+      background: #eee;
       display: flex;
       justify-content: center;
       align-items: center;
       margin: 10px 0;
       border-radius: 8px;
       cursor: pointer;
+      position: relative;
     }
     .cursor-companion-default { pointer-events: none; z-index: 9999; }
     a.download-link {
       display: inline-block;
-      margin-top: 10px;
-      color: #0af;
+      margin-top: 20px;
+      color: #fff;
+      background: #0af;
+      padding: 10px 20px;
+      border-radius: 6px;
       text-decoration: none;
       font-weight: bold;
+      transition: background 0.2s;
     }
+    a.download-link:hover { background: #08c; }
     pre {
-      background: #222;
+      background: #f5f5f5;
+      color: #111;
       padding: 10px;
       border-radius: 6px;
       overflow-x: auto;
+      width: 100%;
+      max-width: 800px;
     }
+    small { font-size: 0.7em; color: #0af; }
   </style>
 
   <script src="cursorbuddy.min.js"></script>
 </head>
 <body>
 
-  <h1>CursorBuddy.js <small style="font-size:0.6em;color:#0af;">(Minified size: 3.58 KB)</small></h1>
+  <h1>CursorBuddy.js <small>(Minified size: 3.58 KB)</small></h1>
 
   <div class="demo-section">
     <h2>Default Buddy</h2>
@@ -63,7 +81,7 @@
   <h2>How to Use</h2>
 
   <pre>
-&lt;script src="https://cursorbuddy.js.org/cursorbuddy.min.js"&gt;&lt;/script&gt;
+&lt;script src="cursorbuddy.min.js"&gt;&lt;/script&gt;
 
 &lt;script&gt;
 // Default float buddy
@@ -99,13 +117,15 @@ CursorCompanion.add({
 &lt;/script&gt;
   </pre>
 
-  <a href="cursorbuddy.min.js" download class="download-link">
-    Download CursorBuddy.min.js (3.58 KB)
+  <a href="CursorCompanion.js" download class="download-link">
+    Download CursorCompanion.js (3.58 KB)
   </a>
 
   <script>
+    // Default float buddy
     CursorCompanion.add({ followSpeed: 0.2, idleEffects: { type: 'float', intensity: 6 } });
 
+    // Demo on existing element
     CursorCompanion.add({
       element: document.getElementById('image-box'),
       followSpeed: 0.15,
@@ -114,6 +134,7 @@ CursorCompanion.add({
       idleEffects: { type: 'float', intensity: 5 }
     });
 
+    // Bounce buddy
     CursorCompanion.add({
       element: (() => {
         const d = document.createElement('div');
@@ -128,6 +149,7 @@ CursorCompanion.add({
       hoverEffects: { type: 'bounce', intensity: 1.2 }
     });
 
+    // Squash buddy
     CursorCompanion.add({
       element: (() => {
         const d = document.createElement('div');
@@ -142,6 +164,7 @@ CursorCompanion.add({
       clickEffects: { type: 'squash', intensity: 0.8 }
     });
 
+    // Spin buddy
     CursorCompanion.add({
       element: (() => {
         const d = document.createElement('div');
@@ -156,6 +179,7 @@ CursorCompanion.add({
       hoverEffects: { type: 'spin', intensity: 1.2 }
     });
 
+    // Wiggle buddy
     CursorCompanion.add({
       element: (() => {
         const d = document.createElement('div');
