@@ -1,199 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CursorBuddy.js</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #fff;
-      color: #111;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    h1 { color: #0af; text-align: center; }
-    .demo-section {
-      margin-bottom: 40px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .demo-box {
-      width: 200px;
-      height: 100px;
-      background: #eee;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 10px 0;
-      border-radius: 8px;
-      cursor: pointer;
-      position: relative;
-    }
-    .cursor-companion-default { pointer-events: none; z-index: 9999; }
-    a.download-link {
-      display: inline-block;
-      margin-top: 20px;
-      color: #fff;
-      background: #0af;
-      padding: 10px 20px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: background 0.2s;
-    }
-    a.download-link:hover { background: #08c; }
-    pre {
-      background: #f5f5f5;
-      color: #111;
-      padding: 10px;
-      border-radius: 6px;
-      overflow-x: auto;
-      width: 100%;
-      max-width: 800px;
-    }
-    small { font-size: 0.7em; color: #0af; }
-  </style>
-
-  <script src="cursorbuddy.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CursorBuddy.js</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #fdfdfd;
+    color: #111;
+    margin: 0;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  h1 {
+    color: #0af;
+    text-align: center;
+    margin-bottom: 5px;
+  }
+  small { font-size: 0.7em; color: #0af; }
+  .download-link {
+    background: #0af;
+    color: #fff;
+    padding: 10px 25px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-bottom: 40px;
+    transition: background 0.2s;
+  }
+  .download-link:hover { background: #08c; }
+  .demo-section {
+    width: 100%;
+    max-width: 900px;
+    margin-bottom: 50px;
+    text-align: center;
+  }
+  .demo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 20px;
+    justify-items: center;
+    margin-top: 20px;
+  }
+  .demo-box {
+    width: 120px;
+    height: 120px;
+    background: #eee;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+  }
+  .demo-box:hover { transform: translateY(-4px); }
+  pre {
+    background: #f5f5f5;
+    color: #111;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 0.9em;
+    max-width: 900px;
+  }
+</style>
+<script src="cursorbuddy.min.js"></script>
 </head>
 <body>
 
-  <h1>CursorBuddy.js <small>(Minified size: 3.58 KB)</small></h1>
+<h1>CursorBuddy.js <small>(Minified size: 3.58 KB)</small></h1>
+<a href="cursorbuddy.min.js" download class="download-link">Download CursorBuddy.min.js</a>
 
-  <div class="demo-section">
-    <h2>Default Buddy</h2>
-    <div class="demo-box">Hover here!</div>
+<div class="demo-section">
+  <h2>Default Buddy</h2>
+  <div class="demo-grid">
+    <div class="demo-box">Hover me!</div>
   </div>
+</div>
 
-  <div class="demo-section">
-    <h2>Element Buddy</h2>
-    <div class="demo-box" id="image-box">Hover me!</div>
-  </div>
+<div class="demo-section">
+  <h2>All Effects</h2>
+  <div class="demo-grid" id="effects-grid"></div>
+</div>
 
-  <div class="demo-section">
-    <h2>All Effects in Action</h2>
-  </div>
-
-  <h2>How to Use</h2>
-
-  <pre>
+<h2>How to Use</h2>
+<pre>
 &lt;script src="cursorbuddy.min.js"&gt;&lt;/script&gt;
 
 &lt;script&gt;
-// Default float buddy
 CursorCompanion.add({ followSpeed: 0.2, idleEffects: { type: 'float', intensity: 6 } });
-
-// Bounce buddy
-CursorCompanion.add({
-  element: (() => { const d=document.createElement('div'); d.style.width='40px'; d.style.height='40px'; d.style.borderRadius='50%'; d.style.background='red'; document.body.appendChild(d); return d; })(),
-  followSpeed: 0.15,
-  hoverEffects: { type:'bounce', intensity:1.2 }
-});
-
-// Squash buddy
-CursorCompanion.add({
-  element: (() => { const d=document.createElement('div'); d.style.width='40px'; d.style.height='40px'; d.style.borderRadius='50%'; d.style.background='green'; document.body.appendChild(d); return d; })(),
-  followSpeed: 0.12,
-  clickEffects: { type:'squash', intensity:0.8 }
-});
-
-// Spin buddy
-CursorCompanion.add({
-  element: (() => { const d=document.createElement('div'); d.style.width='40px'; d.style.height='40px'; d.style.borderRadius='50%'; d.style.background='blue'; document.body.appendChild(d); return d; })(),
-  followSpeed: 0.1,
-  hoverEffects: { type:'spin', intensity:1.2 }
-});
-
-// Wiggle buddy
-CursorCompanion.add({
-  element: (() => { const d=document.createElement('div'); d.style.width='40px'; d.style.height='40px'; d.style.borderRadius='50%'; d.style.background='yellow'; document.body.appendChild(d); return d; })(),
-  followSpeed: 0.18,
-  hoverEffects: { type:'wiggle', intensity:1 }
-});
+CursorCompanion.add({ element: someElement, hoverEffects: { type:'bounce', intensity:1.2 } });
+CursorCompanion.add({ element: someElement, clickEffects: { type:'squash', intensity:0.8 } });
+CursorCompanion.add({ element: someElement, hoverEffects: { type:'spin' } });
+CursorCompanion.add({ element: someElement, hoverEffects: { type:'wiggle' } });
 &lt;/script&gt;
-  </pre>
+</pre>
 
-  <a href="CursorCompanion.js" download class="download-link">
-    Download CursorCompanion.js (3.58 KB)
-  </a>
+<script>
+const colors = ['red','green','blue','yellow','purple'];
+const types = ['bounce','squash','spin','wiggle','float'];
+const grid = document.getElementById('effects-grid');
 
-  <script>
-    // Default float buddy
-    CursorCompanion.add({ followSpeed: 0.2, idleEffects: { type: 'float', intensity: 6 } });
+types.forEach((type, i) => {
+  const box = document.createElement('div');
+  box.className = 'demo-box';
+  box.style.background = colors[i] || '#ccc';
+  box.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+  grid.appendChild(box);
 
-    // Demo on existing element
-    CursorCompanion.add({
-      element: document.getElementById('image-box'),
-      followSpeed: 0.15,
-      hoverEffects: { type: 'bounce', intensity: 1.2 },
-      clickEffects: { type: 'squash', intensity: 0.8 },
-      idleEffects: { type: 'float', intensity: 5 }
-    });
+  const buddyOptions = { element: box, followSpeed: 0.15 };
+  if(type === 'bounce' || type === 'spin' || type === 'wiggle') buddyOptions.hoverEffects = { type: type, intensity: 1.2 };
+  if(type === 'squash') buddyOptions.clickEffects = { type: type, intensity: 0.8 };
+  if(type === 'float') buddyOptions.idleEffects = { type: type, intensity: 5 };
 
-    // Bounce buddy
-    CursorCompanion.add({
-      element: (() => {
-        const d = document.createElement('div');
-        d.style.width = '40px';
-        d.style.height = '40px';
-        d.style.borderRadius = '50%';
-        d.style.background = 'red';
-        document.body.appendChild(d);
-        return d;
-      })(),
-      followSpeed: 0.15,
-      hoverEffects: { type: 'bounce', intensity: 1.2 }
-    });
-
-    // Squash buddy
-    CursorCompanion.add({
-      element: (() => {
-        const d = document.createElement('div');
-        d.style.width = '40px';
-        d.style.height = '40px';
-        d.style.borderRadius = '50%';
-        d.style.background = 'green';
-        document.body.appendChild(d);
-        return d;
-      })(),
-      followSpeed: 0.12,
-      clickEffects: { type: 'squash', intensity: 0.8 }
-    });
-
-    // Spin buddy
-    CursorCompanion.add({
-      element: (() => {
-        const d = document.createElement('div');
-        d.style.width = '40px';
-        d.style.height = '40px';
-        d.style.borderRadius = '50%';
-        d.style.background = 'blue';
-        document.body.appendChild(d);
-        return d;
-      })(),
-      followSpeed: 0.1,
-      hoverEffects: { type: 'spin', intensity: 1.2 }
-    });
-
-    // Wiggle buddy
-    CursorCompanion.add({
-      element: (() => {
-        const d = document.createElement('div');
-        d.style.width = '40px';
-        d.style.height = '40px';
-        d.style.borderRadius = '50%';
-        d.style.background = 'yellow';
-        document.body.appendChild(d);
-        return d;
-      })(),
-      followSpeed: 0.18,
-      hoverEffects: { type: 'wiggle', intensity: 1 }
-    });
-  </script>
+  CursorCompanion.add(buddyOptions);
+});
+</script>
 
 </body>
 </html>
