@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CursorBuddy.js</title>
+<title>CursorBuddy.js Demo</title>
 <style>
   body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: #fefefe;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, monospace;
+    background: #f9f9f9;
     color: #111;
     margin: 0;
     padding: 40px;
@@ -16,9 +16,15 @@
     align-items: center;
   }
 
-  h1 { color: #0af; margin-bottom: 5px; text-align: center; font-size: 2.5em; }
-  h2 { margin-top: 50px; color: #333; font-size: 1.8em; }
-  small { font-size: 0.8em; color: #0af; }
+  h1 {
+    font-family: 'Courier New', monospace;
+    font-size: 3em;
+    color: #0af;
+    margin-bottom: 5px;
+    text-align: center;
+  }
+
+  small { font-size: 0.9em; color: #555; }
 
   .download-link {
     background: #0af;
@@ -31,6 +37,12 @@
     transition: background 0.2s;
   }
   .download-link:hover { background: #08c; }
+
+  h2 {
+    margin-top: 50px;
+    font-size: 1.8em;
+    color: #333;
+  }
 
   .effects-container {
     display: flex;
@@ -45,13 +57,13 @@
   .effect-label {
     font-weight: 600;
     text-align: center;
-    margin-bottom: 10px;
+    margin-top: 10px;
     color: #555;
     font-size: 1.1em;
   }
 
   pre {
-    background: #f5f5f5;
+    background: #eee;
     color: #111;
     padding: 15px;
     border-radius: 8px;
@@ -61,8 +73,12 @@
     margin-bottom: 50px;
   }
 
-  /* Buddy default style */
-  .cursor-companion-default { pointer-events: none; z-index: 9999; border: none; }
+  .cursor-companion-default {
+    pointer-events: none;
+    z-index: 9999;
+    border: none;
+    position: absolute;
+  }
 </style>
 <script src="cursorbuddy.min.js"></script>
 </head>
@@ -100,27 +116,14 @@ const effects = [
 const container = document.getElementById('effects-container');
 
 effects.forEach(eff => {
-  const wrapper = document.createElement('div');
-  wrapper.style.display = 'flex';
-  wrapper.style.flexDirection = 'column';
-  wrapper.style.alignItems = 'center';
-
   const label = document.createElement('div');
   label.className = 'effect-label';
   label.textContent = eff.type;
-  wrapper.appendChild(label);
+  container.appendChild(label);
 
-  container.appendChild(wrapper);
-
-  // Create buddy without passing element, let CursorBuddy create it
   CursorBuddy.add({
     followSpeed: 0.15,
     [eff.action]: { type: eff.type.toLowerCase(), intensity: eff.intensity },
-    image: null, // no image, default colored buddy
-    offset: { x: 0, y: 0 },
-    hoverEffects: eff.action === 'hoverEffects' ? { type: eff.type.toLowerCase(), intensity: eff.intensity } : null,
-    clickEffects: eff.action === 'clickEffects' ? { type: eff.type.toLowerCase(), intensity: eff.intensity } : null,
-    idleEffects: eff.action === 'idleEffects' ? { type: eff.type.toLowerCase(), intensity: eff.intensity } : null,
     element: (() => {
       const d = document.createElement('div');
       d.style.width = '40px';
@@ -131,6 +134,10 @@ effects.forEach(eff => {
       return d;
     })()
   });
+});
+
+CursorBuddy.add({
+  followSpeed: 0.15,
 });
 </script>
 
